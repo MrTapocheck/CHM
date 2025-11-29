@@ -1,0 +1,3 @@
+/home/matehuslims/CHM/CHM/build/CMakeFiles/fem.dir
+/home/matehuslims/CHM/CHM/build/CMakeFiles/edit_cache.dir
+/home/matehuslims/CHM/CHM/build/CMakeFiles/rebuild_cache.dir
