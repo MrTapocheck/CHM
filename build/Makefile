@@ -153,6 +153,30 @@ main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/fem.dir/build.make CMakeFiles/fem.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+src/globals.o: src/globals.cpp.o
+.PHONY : src/globals.o
+
+# target to build an object file
+src/globals.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fem.dir/build.make CMakeFiles/fem.dir/src/globals.cpp.o
+.PHONY : src/globals.cpp.o
+
+src/globals.i: src/globals.cpp.i
+.PHONY : src/globals.i
+
+# target to preprocess a source file
+src/globals.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fem.dir/build.make CMakeFiles/fem.dir/src/globals.cpp.i
+.PHONY : src/globals.cpp.i
+
+src/globals.s: src/globals.cpp.s
+.PHONY : src/globals.s
+
+# target to generate assembly for a file
+src/globals.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fem.dir/build.make CMakeFiles/fem.dir/src/globals.cpp.s
+.PHONY : src/globals.cpp.s
+
 src/mesh_generator.o: src/mesh_generator.cpp.o
 .PHONY : src/mesh_generator.o
 
@@ -237,6 +261,9 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... src/globals.o"
+	@echo "... src/globals.i"
+	@echo "... src/globals.s"
 	@echo "... src/mesh_generator.o"
 	@echo "... src/mesh_generator.i"
 	@echo "... src/mesh_generator.s"

@@ -1,21 +1,7 @@
 #include "../include/mke.h"
-
-// Инициализация глобальных переменных
-bool basis = false; //true - кубический, fasle - линейный
-int kol_elem = 0;
-int left_edge = 1;
-int right_edge = 1;
-int N = 0;
-
-const double GAMMA = 1.0;
-const double BETA = 1.0;
-
-int* ig = nullptr;
-double* di = nullptr;
-double* gg = nullptr;
-double* f = nullptr;
-double* node = nullptr;
-double* q = nullptr;
+#include <cmath>
+#include <cstdio>
+#include <cstring>
 
 // Физика
 double lambda(double r) { return r; }
@@ -37,15 +23,14 @@ int gen_mat() {
 
     in = fopen("param.txt", "r");
     if (!in) {
-        perror("fopen param.txt");  // ← ПОКАЖЕТ, ГДЕ ИЩЕТ
+        perror("fopen param.txt");
         return 1;
-    }    
-//    if ((in = fopen("param.txt", "r")) == nullptr) return 1;
+    }
     if (fscanf(in, "%d", &kol_elem) != 1) { fclose(in); return 1; }
     if (fscanf(in, "%d", &left_edge) != 1) { fclose(in); return 1; }
     if (fscanf(in, "%d", &right_edge) != 1) { fclose(in); return 1; }
     fclose(in);
-
+    printf("ПОСЛЕ чтения: kol_elem=%d\n", kol_elem);
     N = basis ? (1 + kol_elem * 3) : (kol_elem + 1);
 
     ig = new int[N + 1]();
@@ -68,7 +53,8 @@ int gen_mat() {
     gg = new double[ig[N] - 1](); node = new double[kol_elem + 1]();
     if (!di || !f || !q || !gg || !node) return 1;
 
-    if ((in = fopen("setka.txt", "r")) == nullptr) return 1;
+    in = fopen("setka.txt", "r");
+    if (!in) return 1;
     for (i = 0; i <= kol_elem; i++) {
         if (fscanf(in, "%lf", &node[i]) != 1) { fclose(in); return 1; }
     }
@@ -78,23 +64,77 @@ int gen_mat() {
 
 // Очистка
 void clear_mat() {
-    for (int i = 0; i < N; i++) { f[i] = 0; di[i] = 0; }
-    for (int i = 0; i < ig[N] - 1; i++) gg[i] = 0;
+    for (int i = 0; i < N; i++) { f[i] = 0.0; di[i] = 0.0; }
+    for (int i = 0; i < ig[N] - 1; i++) gg[i] = 0.0;
 }
 
-// Матрицы
-void gen_matrix_mass() { /* ... твои формулы ... */ }
-void gen_matrix_zest() { /* ... твои формулы ... */ }
-void gen_right_vector() { /* ... твои формулы ... */ }
+// =============== ТОЧНЫЕ ФОРМУЛЫ (линейный базис) ===============
+void gen_matrix_mass() {
+    for (int i = 0; i < kol_elem; i++) {
+        double h = node[i + 1] - node[i];
+        if (basis) {
+            // кубические — пропускаем пока
+        } else {
+            di[i]     += GAMMA * (h / 60.0) * (20.0 * node[i] * node[i] + 10.0 * h * node[i] + 2.0 * h * h);
+            di[i + 1] += GAMMA * (h / 60.0) * (20.0 * node[i] * node[i] + 30.0 * h * node[i] + 12.0 * h * h);
+            if (i + 1 < N) {
+                int idx = ig[i + 2] - 2;
+                if (idx >= 0 && idx < ig[N] - 1) {
+                    gg[idx] += GAMMA * (h / 60.0) * (10.0 * node[i] * node[i] + 10.0 * h * node[i] + 3.0 * h * h);
+                }
+            }
+        }
+    }
+}
+
+void gen_matrix_zest() {
+    for (int i = 0; i < kol_elem; i++) {
+        double h = node[i + 1] - node[i];
+        double lambda1 = lambda(node[i]);
+        double lambda2 = lambda(node[i + 1]);
+        if (basis) {
+            // кубические — пропускаем
+        } else {
+            double term = ((6.0 * node[i] * node[i] + 4.0 * node[i] * h + h * h) * lambda1 +
+                          (6.0 * node[i] * node[i] + 8.0 * node[i] * h + 3.0 * h * h) * lambda2) / (12.0 * h);
+            di[i]     += term;
+            di[i + 1] += term;
+            if (i + 1 < N) {
+                int idx = ig[i + 2] - 2;
+                if (idx >= 0 && idx < ig[N] - 1) {
+                    gg[idx] -= term;
+                }
+            }
+        }
+    }
+}
+
+void gen_right_vector() {
+    for (int i = 0; i < kol_elem; i++) {
+        double h = node[i + 1] - node[i];
+        double a = f_func(node[i]);
+        double c = f_func(node[i + 1]);
+        if (basis) {
+            // кубические — пропускаем
+        } else {
+            double c11 = (h / 60.0) * (20.0 * node[i] * node[i] + 10.0 * h * node[i] + 2.0 * h * h);
+            double c22 = (h / 60.0) * (20.0 * node[i] * node[i] + 30.0 * h * node[i] + 12.0 * h * h);
+            double c21 = (h / 60.0) * (10.0 * node[i] * node[i] + 10.0 * h * node[i] + 3.0 * h * h);
+            f[i]     += c11 * a + c21 * c;
+            f[i + 1] += c21 * a + c22 * c;
+        }
+    }
+}
+// ===============================================================
 
 // Краевые условия
 void left_edge_1() {
-    if (basis) { di[0] = 1e12; f[0] = 1e12 * u_func(node[0]); }
-    else { di[0] = 1e12; f[0] = 1e12 * u_func(node[0]); }
+    di[0] = 1e12;
+    f[0] = 1e12 * u_func(node[0]);
 }
 void right_edge_1() {
-    int idx = basis ? (3 * kol_elem) : (N - 1);
-    di[idx] = 1e12; f[idx] = 1e12 * u_func(node[kol_elem]);
+    di[N - 1] = 1e12;
+    f[N - 1] = 1e12 * u_func(node[kol_elem]);
 }
 void left_edge_2() { f[0] += -lambda(node[0]) * du_func(node[0]) * node[0] * node[0]; }
 void right_edge_2() { f[N-1] += lambda(node[kol_elem]) * du_func(node[kol_elem]) * node[kol_elem] * node[kol_elem]; }
@@ -114,16 +154,79 @@ void apply_boundary_conditions() {
     }
 }
 
-// Решение
-int LLT() { /* ... плотный Холецкий ... */ return 0; }
-int gauss() { for (int i = 0; i < N; i++) f[i] = q[i]; return 0; }
+// =============== РАБОЧИЙ LLT И GAUSS ===============
+int LLT() {
+    // Плотный Холецкий (N ≤ 1000 — норм)
+    double** A = new double*[N];
+    for (int i = 0; i < N; i++) {
+        A[i] = new double[N]();
+    }
+
+    // Заполняем A из di и gg
+    for (int i = 0; i < N; i++) A[i][i] = di[i];
+    for (int i = 1; i < N; i++) {
+        int width = ig[i + 1] - ig[i];
+        for (int j = 0; j < width; j++) {
+            int col = i - width + j;
+            if (col >= 0 && col < i) {
+                double val = gg[ig[i] + j - 1];
+                A[i][col] = val;
+                A[col][i] = val;
+            }
+        }
+    }
+
+    // Холецкий
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j <= i; j++) {
+            double sum = A[i][j];
+            for (int k = 0; k < j; k++) sum -= A[i][k] * A[j][k];
+            if (i == j) {
+                if (sum <= 0.0) {
+                    printf("LLT: не положительно определена в (%d,%d): %e\n", i, j, sum);
+                    return 1;
+                }
+                A[i][j] = sqrt(sum);
+            } else {
+                A[i][j] = sum / A[j][j];
+            }
+        }
+    }
+
+    // L * y = f
+    double* y = new double[N];
+    for (int i = 0; i < N; i++) {
+        double sum = f[i];
+        for (int k = 0; k < i; k++) sum -= A[i][k] * y[k];
+        y[i] = sum / A[i][i];
+    }
+
+    // L^T * x = y
+    for (int i = N - 1; i >= 0; i--) {
+        double sum = y[i];
+        for (int k = i + 1; k < N; k++) sum -= A[k][i] * q[k];
+        q[i] = sum / A[i][i];
+    }
+
+    delete[] y;
+    for (int i = 0; i < N; i++) delete[] A[i];
+    delete[] A;
+    return 0;
+}
+
+int gauss() {
+    // В твоей логике gauss() копирует q → f, но у нас уже решено
+    // Оставим как заглушку
+    return 0;
+}
+
 int solve() {
     if (LLT()) return 1;
     if (gauss()) return 1;
     return 0;
 }
+// =====================================================
 
-// Вывод
 int output_solution(const char* filename) {
     FILE* out = fopen(filename, "w");
     if (!out) return 1;

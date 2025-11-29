@@ -32,6 +32,8 @@ int main(int argc, char* argv[]) {
 
     // 2. Сборка СЛАУ
     if (gen_mat()) return 1;
+    printf("В main после gen_mat: N=%d\n", N);
+
     clear_mat();
     gen_matrix_mass();
     gen_matrix_zest();
@@ -45,6 +47,7 @@ int main(int argc, char* argv[]) {
         printf("❌ Ошибка решения\n");
         return 1;
     }
+    printf("После solve: q[0]=%e, q[1]=%e, q[2]=%e\n", q[0], q[1], q[2]);
 
     // 5. Вывод
     output_solution("result.txt");

@@ -3,6 +3,7 @@ fem: \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/crti.o \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/crtbeginS.o \
   CMakeFiles/fem.dir/main.cpp.o \
+  CMakeFiles/fem.dir/src/globals.cpp.o \
   CMakeFiles/fem.dir/src/mesh_generator.cpp.o \
   CMakeFiles/fem.dir/src/mke_solver.cpp.o \
   CMakeFiles/fem.dir/src/plot_utils.cpp.o \
@@ -41,6 +42,8 @@ fem: \
 /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/crtbeginS.o:
 
 CMakeFiles/fem.dir/main.cpp.o:
+
+CMakeFiles/fem.dir/src/globals.cpp.o:
 
 CMakeFiles/fem.dir/src/mesh_generator.cpp.o:
 

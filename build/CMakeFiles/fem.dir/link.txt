@@ -1,1 +1,1 @@
-/usr/bin/c++ -Wl,--dependency-file=CMakeFiles/fem.dir/link.d CMakeFiles/fem.dir/main.cpp.o CMakeFiles/fem.dir/src/mesh_generator.cpp.o CMakeFiles/fem.dir/src/mke_solver.cpp.o CMakeFiles/fem.dir/src/plot_utils.cpp.o -o fem
+/usr/bin/c++ -Wl,--dependency-file=CMakeFiles/fem.dir/link.d CMakeFiles/fem.dir/main.cpp.o CMakeFiles/fem.dir/src/globals.cpp.o CMakeFiles/fem.dir/src/mesh_generator.cpp.o CMakeFiles/fem.dir/src/mke_solver.cpp.o CMakeFiles/fem.dir/src/plot_utils.cpp.o -o fem

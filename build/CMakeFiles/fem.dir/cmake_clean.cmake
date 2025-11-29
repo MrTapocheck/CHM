@@ -2,6 +2,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/fem.dir/link.d"
   "CMakeFiles/fem.dir/main.cpp.o"
   "CMakeFiles/fem.dir/main.cpp.o.d"
+  "CMakeFiles/fem.dir/src/globals.cpp.o"
+  "CMakeFiles/fem.dir/src/globals.cpp.o.d"
   "CMakeFiles/fem.dir/src/mesh_generator.cpp.o"
   "CMakeFiles/fem.dir/src/mesh_generator.cpp.o.d"
   "CMakeFiles/fem.dir/src/mke_solver.cpp.o"
