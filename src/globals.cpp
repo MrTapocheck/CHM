@@ -7,7 +7,7 @@ int left_edge = 1;
 int right_edge = 1;
 int N = 0;
 
-const double GAMMA = 1.0;
+const double GAMMA = 0.0;
 const double BETA = 1.0;
 int* ig = nullptr;
 double* di = nullptr;

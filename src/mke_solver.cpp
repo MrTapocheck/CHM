@@ -15,10 +15,13 @@
 //     return basis ? 4 * r * r * r : 1;
 // }
 
-double lambda(double r) { return 1; }
-double f_func(double r) { return -1 + r; }
-double u_func(double r) { return r; }
-double du_func(double r) { return 1; }
+
+const double PI = 3.141592653589793;
+
+double lambda(double r) { return 1.0; }
+double f_func(double r) { return PI * PI * sin(PI * r); }
+double u_func(double r) { return sin(PI * r); }
+double du_func(double r) { return PI * cos(PI * r); }
 
 // Генерация матрицы и сетки
 int gen_mat() {
@@ -116,42 +119,17 @@ void gen_matrix_zest() {
         }
     }
 }
-// void gen_matrix_zest() {
-//     for (int i = 0; i < kol_elem; i++) {
-//         double h = node[i + 1] - node[i];
-//         double lambda1 = lambda(node[i]);  // = 1
-//         double lambda2 = lambda(node[i + 1]); // = 1
-//         if (basis) {
-//             // кубические — пропускаем
-//         } else {
-//             double k = 1.0 / h;  // потому что λ = 1
-//             di[i]     += k;
-//             di[i + 1] += k;
-//             if (i + 1 < N) {
-//                 int idx = ig[i + 2] - 2;
-//                 if (idx >= 0 && idx < ig[N] - 1) {
-//                     gg[idx] -= k;
-//                 }
-//             }
-//         }
-//     }
-// }
 
 void gen_right_vector() {
-    for (int i = 0; i < kol_elem; i++) {
-        double h = node[i + 1] - node[i];
-        double a = f_func(node[i]);
-        double c = f_func(node[i + 1]);
-        if (basis) {
-            // кубические — пропускаем
-        } else {
-            double c11 = (h / 60.0) * (20.0 * node[i] * node[i] + 10.0 * h * node[i] + 2.0 * h * h);
-            double c22 = (h / 60.0) * (20.0 * node[i] * node[i] + 30.0 * h * node[i] + 12.0 * h * h);
-            double c21 = (h / 60.0) * (10.0 * node[i] * node[i] + 10.0 * h * node[i] + 3.0 * h * h);
-            f[i]     += c11 * a + c21 * c;
-            f[i + 1] += c21 * a + c22 * c;
+    printf("=== gen_right_vector ===\n");
+        for (int i = 0; i < kol_elem; i++) {
+            double h = node[i + 1] - node[i];
+            double f0 = f_func(node[i]);
+            double f1 = f_func(node[i + 1]);
+            printf("Элемент %d: f0=%f, f1=%f, h=%f\n", i, f0, f1, h);
+            f[i]     += (f0 + f1) * h / 4.0;
+            f[i + 1] += (f0 + f1) * h / 4.0;
         }
-    }
 }
 // ===============================================================
 
