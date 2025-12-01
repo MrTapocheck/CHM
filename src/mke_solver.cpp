@@ -15,8 +15,8 @@
 //     return basis ? 4 * r * r * r : 1;
 // }
 
-double lambda(double r) { return r; }
-double f_func(double r) { return -3 + r; }
+double lambda(double r) { return 1; }
+double f_func(double r) { return -1 + r; }
 double u_func(double r) { return r; }
 double du_func(double r) { return 1; }
 
@@ -42,7 +42,7 @@ int gen_mat() {
     if (!ig) return 1;
 
     ig[0] = 1; ig[1] = 1;
-    if (basis) {
+    if (basis) { //кубические
         for (i = 0, j = 2; i < kol_elem; i++) {
             ig[j] = ig[j-1] + 1; j++;
             ig[j] = ig[j-1] + 2; j++;
