@@ -44,10 +44,10 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /usr/bin/cmake
+CMAKE_COMMAND = /usr/sbin/cmake
 
 # The command to remove a file.
-RM = /usr/bin/cmake -E rm -f
+RM = /usr/sbin/cmake -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
@@ -72,92 +72,92 @@ include CMakeFiles/fem.dir/flags.make
 CMakeFiles/fem.dir/codegen:
 .PHONY : CMakeFiles/fem.dir/codegen
 
-CMakeFiles/fem.dir/main.cpp.o: CMakeFiles/fem.dir/flags.make
-CMakeFiles/fem.dir/main.cpp.o: /home/matehuslims/CHM/CHM/main.cpp
-CMakeFiles/fem.dir/main.cpp.o: CMakeFiles/fem.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/matehuslims/CHM/CHM/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/fem.dir/main.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/fem.dir/main.cpp.o -MF CMakeFiles/fem.dir/main.cpp.o.d -o CMakeFiles/fem.dir/main.cpp.o -c /home/matehuslims/CHM/CHM/main.cpp
+CMakeFiles/fem.dir/src/mke_solver.cpp.o: CMakeFiles/fem.dir/flags.make
+CMakeFiles/fem.dir/src/mke_solver.cpp.o: /home/matehuslims/CHM/CHM/src/mke_solver.cpp
+CMakeFiles/fem.dir/src/mke_solver.cpp.o: CMakeFiles/fem.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/matehuslims/CHM/CHM/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/fem.dir/src/mke_solver.cpp.o"
+	/usr/sbin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/fem.dir/src/mke_solver.cpp.o -MF CMakeFiles/fem.dir/src/mke_solver.cpp.o.d -o CMakeFiles/fem.dir/src/mke_solver.cpp.o -c /home/matehuslims/CHM/CHM/src/mke_solver.cpp
 
-CMakeFiles/fem.dir/main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/fem.dir/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/matehuslims/CHM/CHM/main.cpp > CMakeFiles/fem.dir/main.cpp.i
+CMakeFiles/fem.dir/src/mke_solver.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/fem.dir/src/mke_solver.cpp.i"
+	/usr/sbin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/matehuslims/CHM/CHM/src/mke_solver.cpp > CMakeFiles/fem.dir/src/mke_solver.cpp.i
 
-CMakeFiles/fem.dir/main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/fem.dir/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/matehuslims/CHM/CHM/main.cpp -o CMakeFiles/fem.dir/main.cpp.s
-
-CMakeFiles/fem.dir/src/globals.cpp.o: CMakeFiles/fem.dir/flags.make
-CMakeFiles/fem.dir/src/globals.cpp.o: /home/matehuslims/CHM/CHM/src/globals.cpp
-CMakeFiles/fem.dir/src/globals.cpp.o: CMakeFiles/fem.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/matehuslims/CHM/CHM/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/fem.dir/src/globals.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/fem.dir/src/globals.cpp.o -MF CMakeFiles/fem.dir/src/globals.cpp.o.d -o CMakeFiles/fem.dir/src/globals.cpp.o -c /home/matehuslims/CHM/CHM/src/globals.cpp
-
-CMakeFiles/fem.dir/src/globals.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/fem.dir/src/globals.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/matehuslims/CHM/CHM/src/globals.cpp > CMakeFiles/fem.dir/src/globals.cpp.i
-
-CMakeFiles/fem.dir/src/globals.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/fem.dir/src/globals.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/matehuslims/CHM/CHM/src/globals.cpp -o CMakeFiles/fem.dir/src/globals.cpp.s
+CMakeFiles/fem.dir/src/mke_solver.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/fem.dir/src/mke_solver.cpp.s"
+	/usr/sbin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/matehuslims/CHM/CHM/src/mke_solver.cpp -o CMakeFiles/fem.dir/src/mke_solver.cpp.s
 
 CMakeFiles/fem.dir/src/mesh_generator.cpp.o: CMakeFiles/fem.dir/flags.make
 CMakeFiles/fem.dir/src/mesh_generator.cpp.o: /home/matehuslims/CHM/CHM/src/mesh_generator.cpp
 CMakeFiles/fem.dir/src/mesh_generator.cpp.o: CMakeFiles/fem.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/matehuslims/CHM/CHM/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/fem.dir/src/mesh_generator.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/fem.dir/src/mesh_generator.cpp.o -MF CMakeFiles/fem.dir/src/mesh_generator.cpp.o.d -o CMakeFiles/fem.dir/src/mesh_generator.cpp.o -c /home/matehuslims/CHM/CHM/src/mesh_generator.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/matehuslims/CHM/CHM/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/fem.dir/src/mesh_generator.cpp.o"
+	/usr/sbin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/fem.dir/src/mesh_generator.cpp.o -MF CMakeFiles/fem.dir/src/mesh_generator.cpp.o.d -o CMakeFiles/fem.dir/src/mesh_generator.cpp.o -c /home/matehuslims/CHM/CHM/src/mesh_generator.cpp
 
 CMakeFiles/fem.dir/src/mesh_generator.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/fem.dir/src/mesh_generator.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/matehuslims/CHM/CHM/src/mesh_generator.cpp > CMakeFiles/fem.dir/src/mesh_generator.cpp.i
+	/usr/sbin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/matehuslims/CHM/CHM/src/mesh_generator.cpp > CMakeFiles/fem.dir/src/mesh_generator.cpp.i
 
 CMakeFiles/fem.dir/src/mesh_generator.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/fem.dir/src/mesh_generator.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/matehuslims/CHM/CHM/src/mesh_generator.cpp -o CMakeFiles/fem.dir/src/mesh_generator.cpp.s
-
-CMakeFiles/fem.dir/src/mke_solver.cpp.o: CMakeFiles/fem.dir/flags.make
-CMakeFiles/fem.dir/src/mke_solver.cpp.o: /home/matehuslims/CHM/CHM/src/mke_solver.cpp
-CMakeFiles/fem.dir/src/mke_solver.cpp.o: CMakeFiles/fem.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/matehuslims/CHM/CHM/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/fem.dir/src/mke_solver.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/fem.dir/src/mke_solver.cpp.o -MF CMakeFiles/fem.dir/src/mke_solver.cpp.o.d -o CMakeFiles/fem.dir/src/mke_solver.cpp.o -c /home/matehuslims/CHM/CHM/src/mke_solver.cpp
-
-CMakeFiles/fem.dir/src/mke_solver.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/fem.dir/src/mke_solver.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/matehuslims/CHM/CHM/src/mke_solver.cpp > CMakeFiles/fem.dir/src/mke_solver.cpp.i
-
-CMakeFiles/fem.dir/src/mke_solver.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/fem.dir/src/mke_solver.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/matehuslims/CHM/CHM/src/mke_solver.cpp -o CMakeFiles/fem.dir/src/mke_solver.cpp.s
+	/usr/sbin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/matehuslims/CHM/CHM/src/mesh_generator.cpp -o CMakeFiles/fem.dir/src/mesh_generator.cpp.s
 
 CMakeFiles/fem.dir/src/plot_utils.cpp.o: CMakeFiles/fem.dir/flags.make
 CMakeFiles/fem.dir/src/plot_utils.cpp.o: /home/matehuslims/CHM/CHM/src/plot_utils.cpp
 CMakeFiles/fem.dir/src/plot_utils.cpp.o: CMakeFiles/fem.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/matehuslims/CHM/CHM/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/fem.dir/src/plot_utils.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/fem.dir/src/plot_utils.cpp.o -MF CMakeFiles/fem.dir/src/plot_utils.cpp.o.d -o CMakeFiles/fem.dir/src/plot_utils.cpp.o -c /home/matehuslims/CHM/CHM/src/plot_utils.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/matehuslims/CHM/CHM/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/fem.dir/src/plot_utils.cpp.o"
+	/usr/sbin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/fem.dir/src/plot_utils.cpp.o -MF CMakeFiles/fem.dir/src/plot_utils.cpp.o.d -o CMakeFiles/fem.dir/src/plot_utils.cpp.o -c /home/matehuslims/CHM/CHM/src/plot_utils.cpp
 
 CMakeFiles/fem.dir/src/plot_utils.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/fem.dir/src/plot_utils.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/matehuslims/CHM/CHM/src/plot_utils.cpp > CMakeFiles/fem.dir/src/plot_utils.cpp.i
+	/usr/sbin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/matehuslims/CHM/CHM/src/plot_utils.cpp > CMakeFiles/fem.dir/src/plot_utils.cpp.i
 
 CMakeFiles/fem.dir/src/plot_utils.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/fem.dir/src/plot_utils.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/matehuslims/CHM/CHM/src/plot_utils.cpp -o CMakeFiles/fem.dir/src/plot_utils.cpp.s
+	/usr/sbin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/matehuslims/CHM/CHM/src/plot_utils.cpp -o CMakeFiles/fem.dir/src/plot_utils.cpp.s
+
+CMakeFiles/fem.dir/src/globals.cpp.o: CMakeFiles/fem.dir/flags.make
+CMakeFiles/fem.dir/src/globals.cpp.o: /home/matehuslims/CHM/CHM/src/globals.cpp
+CMakeFiles/fem.dir/src/globals.cpp.o: CMakeFiles/fem.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/matehuslims/CHM/CHM/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/fem.dir/src/globals.cpp.o"
+	/usr/sbin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/fem.dir/src/globals.cpp.o -MF CMakeFiles/fem.dir/src/globals.cpp.o.d -o CMakeFiles/fem.dir/src/globals.cpp.o -c /home/matehuslims/CHM/CHM/src/globals.cpp
+
+CMakeFiles/fem.dir/src/globals.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/fem.dir/src/globals.cpp.i"
+	/usr/sbin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/matehuslims/CHM/CHM/src/globals.cpp > CMakeFiles/fem.dir/src/globals.cpp.i
+
+CMakeFiles/fem.dir/src/globals.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/fem.dir/src/globals.cpp.s"
+	/usr/sbin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/matehuslims/CHM/CHM/src/globals.cpp -o CMakeFiles/fem.dir/src/globals.cpp.s
+
+CMakeFiles/fem.dir/main.cpp.o: CMakeFiles/fem.dir/flags.make
+CMakeFiles/fem.dir/main.cpp.o: /home/matehuslims/CHM/CHM/main.cpp
+CMakeFiles/fem.dir/main.cpp.o: CMakeFiles/fem.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/matehuslims/CHM/CHM/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/fem.dir/main.cpp.o"
+	/usr/sbin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/fem.dir/main.cpp.o -MF CMakeFiles/fem.dir/main.cpp.o.d -o CMakeFiles/fem.dir/main.cpp.o -c /home/matehuslims/CHM/CHM/main.cpp
+
+CMakeFiles/fem.dir/main.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/fem.dir/main.cpp.i"
+	/usr/sbin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/matehuslims/CHM/CHM/main.cpp > CMakeFiles/fem.dir/main.cpp.i
+
+CMakeFiles/fem.dir/main.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/fem.dir/main.cpp.s"
+	/usr/sbin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/matehuslims/CHM/CHM/main.cpp -o CMakeFiles/fem.dir/main.cpp.s
 
 # Object files for target fem
 fem_OBJECTS = \
-"CMakeFiles/fem.dir/main.cpp.o" \
-"CMakeFiles/fem.dir/src/globals.cpp.o" \
-"CMakeFiles/fem.dir/src/mesh_generator.cpp.o" \
 "CMakeFiles/fem.dir/src/mke_solver.cpp.o" \
-"CMakeFiles/fem.dir/src/plot_utils.cpp.o"
+"CMakeFiles/fem.dir/src/mesh_generator.cpp.o" \
+"CMakeFiles/fem.dir/src/plot_utils.cpp.o" \
+"CMakeFiles/fem.dir/src/globals.cpp.o" \
+"CMakeFiles/fem.dir/main.cpp.o"
 
 # External object files for target fem
 fem_EXTERNAL_OBJECTS =
 
-fem: CMakeFiles/fem.dir/main.cpp.o
-fem: CMakeFiles/fem.dir/src/globals.cpp.o
-fem: CMakeFiles/fem.dir/src/mesh_generator.cpp.o
 fem: CMakeFiles/fem.dir/src/mke_solver.cpp.o
+fem: CMakeFiles/fem.dir/src/mesh_generator.cpp.o
 fem: CMakeFiles/fem.dir/src/plot_utils.cpp.o
+fem: CMakeFiles/fem.dir/src/globals.cpp.o
+fem: CMakeFiles/fem.dir/main.cpp.o
 fem: CMakeFiles/fem.dir/build.make
 fem: CMakeFiles/fem.dir/compiler_depend.ts
 fem: CMakeFiles/fem.dir/link.txt

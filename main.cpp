@@ -34,7 +34,9 @@ int main(int argc, char* argv[]) {
     if (gen_mat()) return 1;
     printf("В main после gen_mat: N=%d\n", N);
 
+    printf("До clear_mat: di[0]=%e, di[1]=%e\n", di[0], di[1]);
     clear_mat();
+    printf("После clear_mat: di[0]=%e, di[1]=%e\n", di[0], di[1]);
     gen_matrix_mass();
     gen_matrix_zest();
     gen_right_vector();

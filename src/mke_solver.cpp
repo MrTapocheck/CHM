@@ -4,16 +4,21 @@
 #include <cstring>
 
 // Физика
+// double lambda(double r) { return r; }
+// double f_func(double r) {
+//     return basis ? (-24. * r * r * r + r * r * r * r) : (-3 + r);
+// }
+// double u_func(double r) {
+//     return basis ? r * r * r * r : r;
+// }
+// double du_func(double r) {
+//     return basis ? 4 * r * r * r : 1;
+// }
+
 double lambda(double r) { return r; }
-double f_func(double r) {
-    return basis ? (-24. * r * r * r + r * r * r * r) : (-3 + r);
-}
-double u_func(double r) {
-    return basis ? r * r * r * r : r;
-}
-double du_func(double r) {
-    return basis ? 4 * r * r * r : 1;
-}
+double f_func(double r) { return -3 + r; }
+double u_func(double r) { return r; }
+double du_func(double r) { return 1; }
 
 // Генерация матрицы и сетки
 int gen_mat() {
@@ -59,11 +64,16 @@ int gen_mat() {
         if (fscanf(in, "%lf", &node[i]) != 1) { fclose(in); return 1; }
     }
     fclose(in);
+    printf("ig[N] = %d, размер gg = %d\n", ig[N], ig[N] - 1);
+    for (int i = 0; i <= N; i++) {
+        printf("ig[%d] = %d\n", i, ig[i]);
+    }    
     return 0;
 }
 
 // Очистка
 void clear_mat() {
+    printf("Очистка: N=%d\n", N);
     for (int i = 0; i < N; i++) { f[i] = 0.0; di[i] = 0.0; }
     for (int i = 0; i < ig[N] - 1; i++) gg[i] = 0.0;
 }
@@ -86,28 +96,46 @@ void gen_matrix_mass() {
         }
     }
 }
-
 void gen_matrix_zest() {
+    printf("=== gen_matrix_zest ===\n");
     for (int i = 0; i < kol_elem; i++) {
         double h = node[i + 1] - node[i];
-        double lambda1 = lambda(node[i]);
-        double lambda2 = lambda(node[i + 1]);
-        if (basis) {
-            // кубические — пропускаем
-        } else {
-            double term = ((6.0 * node[i] * node[i] + 4.0 * node[i] * h + h * h) * lambda1 +
-                          (6.0 * node[i] * node[i] + 8.0 * node[i] * h + 3.0 * h * h) * lambda2) / (12.0 * h);
-            di[i]     += term;
-            di[i + 1] += term;
-            if (i + 1 < N) {
-                int idx = ig[i + 2] - 2;
-                if (idx >= 0 && idx < ig[N] - 1) {
-                    gg[idx] -= term;
-                }
+        double k = 1.0 / h;
+        printf("Элемент %d: h=%.3f, k=%.3f\n", i, h, k);
+        printf("  до: di[%d]=%e, di[%d]=%e\n", i, di[i], i+1, di[i+1]);
+        di[i]     += k;
+        di[i + 1] += k;
+        printf("  после: di[%d]=%e, di[%d]=%e\n", i, di[i], i+1, di[i+1]);
+        if (i + 1 < N) {
+            int idx = ig[i + 2] - 2;
+            if (idx >= 0 && idx < ig[N] - 1) {
+                printf("  gg[%d] до: %e\n", idx, gg[idx]);
+                gg[idx] -= k;
+                printf("  gg[%d] после: %e\n", idx, gg[idx]);
             }
         }
     }
 }
+// void gen_matrix_zest() {
+//     for (int i = 0; i < kol_elem; i++) {
+//         double h = node[i + 1] - node[i];
+//         double lambda1 = lambda(node[i]);  // = 1
+//         double lambda2 = lambda(node[i + 1]); // = 1
+//         if (basis) {
+//             // кубические — пропускаем
+//         } else {
+//             double k = 1.0 / h;  // потому что λ = 1
+//             di[i]     += k;
+//             di[i + 1] += k;
+//             if (i + 1 < N) {
+//                 int idx = ig[i + 2] - 2;
+//                 if (idx >= 0 && idx < ig[N] - 1) {
+//                     gg[idx] -= k;
+//                 }
+//             }
+//         }
+//     }
+// }
 
 void gen_right_vector() {
     for (int i = 0; i < kol_elem; i++) {
@@ -133,8 +161,8 @@ void left_edge_1() {
     f[0] = 1e12 * u_func(node[0]);
 }
 void right_edge_1() {
-    di[N - 1] = 1e12;
-    f[N - 1] = 1e12 * u_func(node[kol_elem]);
+    di[N-1] = 1e12;
+    f[N-1] = 1e12 * u_func(node[kol_elem]);
 }
 void left_edge_2() { f[0] += -lambda(node[0]) * du_func(node[0]) * node[0] * node[0]; }
 void right_edge_2() { f[N-1] += lambda(node[kol_elem]) * du_func(node[kol_elem]) * node[kol_elem] * node[kol_elem]; }

@@ -4,11 +4,15 @@ project(CHM_MKE VERSION 1.0)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Источники
-file(GLOB SOURCES "src/*.cpp" "main.cpp")
+# Все исходники — жёстко прописаны
+set(SOURCES
+    src/mke_solver.cpp
+    src/mesh_generator.cpp
+    src/plot_utils.cpp
+    src/globals.cpp
+    main.cpp
+)
 
-# Исполняемый файл
 add_executable(fem ${SOURCES})
 
-# Заголовки
 target_include_directories(fem PRIVATE ${CMAKE_SOURCE_DIR}/include)

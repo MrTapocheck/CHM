@@ -1,5 +1,0 @@
-# lambda(r), f(r), u(r), du(r) — пиши как в C, с r как переменной
-lambda = r
-f = -3 + r
-u = r
-du = 1
