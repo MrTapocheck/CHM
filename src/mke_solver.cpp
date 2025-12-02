@@ -19,9 +19,9 @@
 const double PI = 3.141592653589793;
 
 double lambda(double r) { return 1; }
-double f_func(double r) { return 0.0; } 
-double u_func(double r) { return 2*r+1; }
-double du_func(double r) { return 2; }
+double f_func(double r) { return -6*r; } 
+double u_func(double r) { return r*r*r; }
+double du_func(double r) { return 3*r*r; }
 
 // Генерация матрицы и сетки
 int gen_mat() {
