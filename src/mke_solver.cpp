@@ -124,17 +124,17 @@ void gen_matrix_zest() {
     for (int i = 0; i < kol_elem; i++) {
         double h = node[i + 1] - node[i];
         double k = 1.0 / h;
-        printf("Элемент %d: h=%.3f, k=%.3f\n", i, h, k);
-        printf("  до: di[%d]=%e, di[%d]=%e\n", i, di[i], i+1, di[i+1]);
+        // printf("Элемент %d: h=%.3f, k=%.3f\n", i, h, k);
+        // printf("  до: di[%d]=%e, di[%d]=%e\n", i, di[i], i+1, di[i+1]);
         di[i]     += k;
         di[i + 1] += k;
-        printf("  после: di[%d]=%e, di[%d]=%e\n", i, di[i], i+1, di[i+1]);
+        // printf("  после: di[%d]=%e, di[%d]=%e\n", i, di[i], i+1, di[i+1]);
         if (i + 1 < N) {
             int idx = ig[i + 2] - 2;
             if (idx >= 0 && idx < ig[N] - 1) {
-                printf("  gg[%d] до: %e\n", idx, gg[idx]);
+                // printf("  gg[%d] до: %e\n", idx, gg[idx]);
                 gg[idx] -= k;
-                printf("  gg[%d] после: %e\n", idx, gg[idx]);
+                // printf("  gg[%d] после: %e\n", idx, gg[idx]);
             }
         }
     }
@@ -162,26 +162,9 @@ void right_edge_1() {
     di[N-1] = 1e12;
     f[N-1] = 1e12 * u_func(node[kol_elem]);
 }
-// void left_edge_1() {
-//     // Точно фиксируем q[0] = u(0)
-//     di[0] = 1.0;
-//     f[0] = u_func(node[0]);
-//     // Обнуляем все gg, связанные с узлом 0
-//     if (N > 1) {
-//         gg[0] = 0.0;  // gg[0] = A[1][0]
-//     }
-// }
+void left_edge_2() { f[0] += -lambda(node[0]) * du_func(node[0]); }
+void right_edge_2() { f[N-1] += lambda(node[kol_elem]) * du_func(node[kol_elem]); }
 
-// void right_edge_1() {
-//     int i = N - 1;
-//     di[i] = 1.0;
-//     f[i] = u_func(node[kol_elem]);
-//     if (i > 0) {
-//         gg[i-1] = 0.0;  // gg[i-1] = A[i][i-1]
-//     }
-// }
-void left_edge_2() { f[0] += -lambda(node[0]) * du_func(node[0]) * node[0] * node[0]; }
-void right_edge_2() { f[N-1] += lambda(node[kol_elem]) * du_func(node[kol_elem]) * node[kol_elem] * node[kol_elem]; }
 void left_edge_3() { di[0] += BETA; f[0] += (-lambda(node[0])*du_func(node[0])*node[0]*node[0])/BETA + u_func(node[0]); }
 void right_edge_3() { di[N-1] += BETA; f[N-1] += (lambda(node[kol_elem])*du_func(node[kol_elem])*node[kol_elem]*node[kol_elem])/BETA + u_func(node[kol_elem]); }
 
@@ -199,108 +182,6 @@ void apply_boundary_conditions() {
 }
 
 // =============== РАБОЧИЙ LLT И GAUSS ===============
-// int LLT() {
-//     // Плотный Холецкий (N ≤ 1000 — норм)
-//     double** A = new double*[N];
-//     for (int i = 0; i < N; i++) {
-//         A[i] = new double[N]();
-//     }
-
-//     // Заполняем A из di и gg
-//     for (int i = 0; i < N; i++) A[i][i] = di[i];
-//     for (int i = 1; i < N; i++) {
-//         int width = ig[i + 1] - ig[i];
-//         for (int j = 0; j < width; j++) {
-//             int col = i - width + j;
-//             if (col >= 0 && col < i) {
-//                 double val = gg[ig[i] + j - 1];
-//                 A[i][col] = val;
-//                 A[col][i] = val;
-//             }
-//         }
-//     }
-
-//     // Холецкий
-//     for (int i = 0; i < N; i++) {
-//         for (int j = 0; j <= i; j++) {
-//             double sum = A[i][j];
-//             for (int k = 0; k < j; k++) sum -= A[i][k] * A[j][k];
-//             if (i == j) {
-//                 if (sum <= 0.0) {
-//                     printf("LLT: не положительно определена в (%d,%d): %e\n", i, j, sum);
-//                     return 1;
-//                 }
-//                 A[i][j] = sqrt(sum);
-//             } else {
-//                 A[i][j] = sum / A[j][j];
-//             }
-//         }
-//     }
-
-//     // L * y = f
-//     double* y = new double[N];
-//     for (int i = 0; i < N; i++) {
-//         double sum = f[i];
-//         for (int k = 0; k < i; k++) sum -= A[i][k] * y[k];
-//         y[i] = sum / A[i][i];
-//     }
-
-//     // L^T * x = y
-//     for (int i = N - 1; i >= 0; i--) {
-//         double sum = y[i];
-//         for (int k = i + 1; k < N; k++) sum -= A[k][i] * q[k];
-//         q[i] = sum / A[i][i];
-//     }
-
-//     delete[] y;
-//     for (int i = 0; i < N; i++) delete[] A[i];
-//     delete[] A;
-//     return 0;
-// }
-// int LLT() {
-//     // ----------- ПРОФИЛЬНЫЙ ХОЛЕЦКИЙ ДЛЯ 1D (трёхдиагональная матрица) -----------
-//     // A = [ d0        ]
-//     //     [ g0  d1    ]
-//     //     [    g1  d2 ]
-//     //     [        ... ]
-
-//     // Прямой проход: L * L^T = A
-//     for (int i = 0; i < N; i++) {
-//         if (i == 0) {
-//             // Первая строка: d0 = L00^2
-//             if (di[0] <= 0) { printf("LLT fail at 0: %e <= 0\n", di[0]); return 1; }
-//             di[0] = sqrt(di[0]);
-//         } else {
-//             // Строка i: gi-1 = Li,i-1 * Li-1,i-1  → Li,i-1 = gi-1 / di[i-1]
-//             double l_im1 = gg[i-1] / di[i-1];
-//             gg[i-1] = l_im1;  // сохраняем L[i][i-1] в gg[i-1]
-//             // di[i] = Lii^2 + Li,i-1^2  → Lii = sqrt(di[i] - Li,i-1^2)
-//             double diag = di[i] - l_im1 * l_im1 * di[i-1];
-//             if (diag <= 0) { printf("LLT fail at %d: %e <= 0\n", i, diag); return 1; }
-//             di[i] = sqrt(diag);
-//         }
-//     }
-
-//     // Прямой ход: L * y = f
-//     for (int i = 0; i < N; i++) {
-//         if (i == 0) {
-//             q[i] = f[i] / di[i];
-//         } else {
-//             q[i] = (f[i] - gg[i-1] * q[i-1]) / di[i];
-//         }
-//     }
-
-//     // Обратный ход: L^T * x = y
-//     for (int i = N - 1; i >= 0; i--) {
-//         if (i == N - 1) {
-//             q[i] = q[i] / di[i];
-//         } else {
-//             q[i] = (q[i] - gg[i] * q[i+1]) / di[i];
-//         }
-//     }
-
-//     return 0;
-// }
 int LLT() {
     int i, j, k;
     double per;

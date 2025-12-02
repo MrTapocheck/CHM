@@ -2,7 +2,8 @@
 #include <ctime>
 #include <algorithm>
 
-int generate_mesh(double a, double b, int n_points, bool uniform) {
+int generate_mesh(double a, double b, int n_points, bool uniform,
+                  int left_edge, int right_edge) {
     if (n_points < 2 || a >= b) return 1;
 
     double* x = new double[n_points];
@@ -25,7 +26,7 @@ int generate_mesh(double a, double b, int n_points, bool uniform) {
 
     // param.txt
     f = fopen("param.txt", "w");
-    fprintf(f, "%d\n1\n1\n", n_points - 1);
+    fprintf(f, "%d\n%d\n%d\n", n_points - 1, left_edge, right_edge);
     fclose(f);
 
     delete[] x;

@@ -36,8 +36,8 @@ int solve();
 int output_solution(const char* filename);
 
 // mesh
-int generate_mesh(double a, double b, int n_points, bool uniform);
-
+int generate_mesh(double a, double b, int n_points, bool uniform,
+                  int left_edge = 1, int right_edge = 1);
 // plot
 int save_plot_data(const char* filename);
 int generate_plot_script(const char* script_name);

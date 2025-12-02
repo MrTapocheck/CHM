@@ -8,25 +8,29 @@ int main(int argc, char* argv[]) {
         printf("Рабочая директория: %s\n", cwd);
     }
 
-    double a = 0.0, b = 1.0;
-    int n_points = 6;
-    bool uniform = true;
 
-    if (argc >= 5) {
-        a = atof(argv[1]);
-        b = atof(argv[2]);
-        n_points = atoi(argv[3]);
-        uniform = (atoi(argv[4]) != 0);
-        if (argc >= 6) basis = (atoi(argv[5]) != 0);
-    }
+
+
+    auto get_arg = [&](int i, auto def) {
+        return (argc > i) ? static_cast<decltype(def)>(atof(argv[i])) : def;
+    };
+    //по умолчанию a = 0 b = 1
+    double a = get_arg(1, 0.0); 
+    double b = get_arg(2, 1.0);
+    int n_points = get_arg(3, 6); //5 точек
+    bool uniform = get_arg(4, 1) != 0;//сетка равномерная по умолчанию
+    //краевые по умолчанию первые
+    int le = get_arg(5, 1);
+    int re = get_arg(6, 1);
+    basis = get_arg(7, 0) != 0; //базис по умолчанию линейный
 
     // 1. Генерация сетки
-    if (generate_mesh(a, b, n_points, uniform)) {
+    if (generate_mesh(a, b, n_points, uniform, le, re)) {
         printf("❌ Ошибка генерации сетки\n");
         return 1;
     }
     printf("✅ Сетка [%g, %g], %d точек (%s)\n", a, b, n_points, uniform ? "равномерная" : "случайная");
-    
+    printf("Левое краевое - %d, Правое краевое - %d\n", le, re);
     printf("basis = %s\n", basis ? "кубический" : "линейный");
     printf("N = %d\n", N);
 
@@ -47,19 +51,19 @@ int main(int argc, char* argv[]) {
     printf("После BC: di[0]=%e, f[0]=%e\n", di[0], f[0]);
 
 
-    printf("N=%d, ig[N]=%d, gg size=%d\n", N, ig[N], ig[N]-1);
-    for (int i = 1; i < N; i++) {
-        printf("Строка %d: ширина = %d\n", i, ig[i+1]-ig[i]);
-    }
+    // printf("N=%d, ig[N]=%d, gg size=%d\n", N, ig[N], ig[N]-1);
+    // for (int i = 1; i < N; i++) {
+    //     printf("Строка %d: ширина = %d\n", i, ig[i+1]-ig[i]);
+    // }
     // 4. Решение
     if (solve()) {
         printf("❌ Ошибка решения\n");
         return 1;
     }
-    printf("N=%d, ig[N]=%d, gg size=%d\n", N, ig[N], ig[N]-1);
-    for (int i = 1; i < N; i++) {
-        printf("Строка %d: ширина = %d\n", i, ig[i+1]-ig[i]);
-    }
+    // printf("N=%d, ig[N]=%d, gg size=%d\n", N, ig[N], ig[N]-1);
+    // for (int i = 1; i < N; i++) {
+    //     printf("Строка %d: ширина = %d\n", i, ig[i+1]-ig[i]);
+    // }
 
     printf("После solve: q[0]=%e, q[1]=%e, q[2]=%e\n", q[0], q[1], q[2]);
 

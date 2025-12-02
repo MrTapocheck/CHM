@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -I/home/matehuslims/CHM/CHM/include
 
-CXX_FLAGS = -std=gnu++11
+CXX_FLAGS = -std=gnu++14
 
