@@ -37,18 +37,30 @@ int main(int argc, char* argv[]) {
     printf("До clear_mat: di[0]=%e, di[1]=%e\n", di[0], di[1]);
     clear_mat();
     printf("После clear_mat: di[0]=%e, di[1]=%e\n", di[0], di[1]);
-    gen_matrix_mass();
+    // gen_matrix_mass();
     gen_matrix_zest();
     gen_right_vector();
 
     // 3. Краевые условия
+    printf("До BC: di[0]=%e, f[0]=%e\n", di[0], f[0]);
     apply_boundary_conditions();
+    printf("После BC: di[0]=%e, f[0]=%e\n", di[0], f[0]);
 
+
+    printf("N=%d, ig[N]=%d, gg size=%d\n", N, ig[N], ig[N]-1);
+    for (int i = 1; i < N; i++) {
+        printf("Строка %d: ширина = %d\n", i, ig[i+1]-ig[i]);
+    }
     // 4. Решение
     if (solve()) {
         printf("❌ Ошибка решения\n");
         return 1;
     }
+    printf("N=%d, ig[N]=%d, gg size=%d\n", N, ig[N], ig[N]-1);
+    for (int i = 1; i < N; i++) {
+        printf("Строка %d: ширина = %d\n", i, ig[i+1]-ig[i]);
+    }
+
     printf("После solve: q[0]=%e, q[1]=%e, q[2]=%e\n", q[0], q[1], q[2]);
 
     // 5. Вывод
