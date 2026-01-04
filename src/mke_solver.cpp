@@ -3,19 +3,6 @@
 #include <cstdio>
 #include <cstring>
 
-// Физика
-// double lambda(double r) { return r; }
-// double f_func(double r) {
-//     return basis ? (-24. * r * r * r + r * r * r * r) : (-3 + r);
-// }
-// double u_func(double r) {
-//     return basis ? r * r * r * r : r;
-// }
-// double du_func(double r) {
-//     return basis ? 4 * r * r * r : 1;
-// }
-
-
 const double PI = 3.141592653589793;
 
 double lambda(double r) { return 1; }
