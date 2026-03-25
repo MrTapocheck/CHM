@@ -5,6 +5,10 @@
 #include <cstdlib>
 #include <cmath>
 
+extern double* q_old;
+extern double tau;
+extern int n_time;
+
 // ---------- Глобальные параметры ----------
 extern bool basis;           // true — кубический, false — линейный
 extern int kol_elem;         // количество КЭ
@@ -50,5 +54,12 @@ double du_func(double r);
 
 // boundary conditions
 void apply_boundary_conditions();
+
+// initial condition
+double u0_func(double x);
+
+// time-dependent right-hand side
+void gen_right_vector_time(double t);
+void apply_boundary_conditions_time(double t);
 
 #endif // MKE_H

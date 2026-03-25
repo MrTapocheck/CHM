@@ -7,7 +7,7 @@ const double PI = 3.141592653589793;
 
 double lambda(double r) { return 1; }
 double f_func(double r) { return -6*r; } 
-double u_func(double r) { return r*r*r; }
+double u_func(double r) { return sin(3.1415926535 * r); }    // Для нестационарного теста: u(x,0) = sin(πx)
 double du_func(double r) { return 3*r*r; }
 
 // Генерация матрицы и сетки
@@ -255,10 +255,36 @@ int output_solution(const char* filename) {
     fprintf(out, "x\tapprox\tanalytic\terror\n");
     for (int i = 0; i <= kol_elem; i++) {
         double approx = basis ? q[3*i] : q[i];
-        double exact = u_func(node[i]);
+        double exact = u_func(node[i]);  // ← для теста с затуханием замени на: exp(-M_PI*M_PI*(n+1)*tau) * sin(M_PI*node[i])
         double err = fabs(approx - exact);
         fprintf(out, "%.8f\t%.8f\t%.8f\t%.2e\n", node[i], approx, exact, err);
     }
     fclose(out);
     return 0;
+}
+
+// Начальное условие u(x,0)
+double u0_func(double x) {
+    return sin(3.1415926535 * x);  // sin(pi*x)
+}
+
+// Правая часть f(x,t) — для теста = 0
+double f_func_time(double x, double t) {
+    return 0.0;
+}
+
+// Генерация правой части F(t)
+void gen_right_vector_time(double t) {
+    for (int i = 0; i < kol_elem; i++) {
+        double h = node[i+1] - node[i];
+        double f0 = f_func_time(node[i], t);
+        double f1 = f_func_time(node[i+1], t);
+        f[i]     += (f0 + f1) * h / 4.0;
+        f[i+1]   += (f0 + f1) * h / 4.0;
+    }
+}
+
+// Краевые условия со временем (оставим как есть)
+void apply_boundary_conditions_time(double t) {
+    apply_boundary_conditions(); // используем старые (они не зависят от t)
 }

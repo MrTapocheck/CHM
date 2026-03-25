@@ -1,11 +1,11 @@
 #!/bin/bash
 gnuplot -p << 'EOF'
 set grid
-set multiplot layout 2,1 title 'МКЭ: линейный базис' font ',12'
-set title 'Решение'
-plot 'plot.dat' u 1:2 w p pt 7 ps 1 lc 'red' t 'МКЭ', \
-     '' u 1:3 w l lw 2 lc 'blue' t 'Точное'
-set title 'Абсолютная ошибка'
-plot 'plot.dat' u 1:4 w lp pt 7 ps 0.8 lc 'purple' t '|ошибка|'
-unset multiplot
+set xlabel 'x'
+set ylabel 'u(x,t)'
+set title 'Нестационарный МКЭ: затухание решения'
+plot 'result_t0000.txt' u 1:2 w lp pt 7 ps 0.8 lc 1 t 't=0.0', \
+     'result_t0020.txt' u 1:2 w lp pt 7 ps 0.8 lc 2 t 't=0.2', \
+     'result_t0040.txt' u 1:2 w lp pt 7 ps 0.8 lc 3 t 't=0.4', \
+     'result_t0099.txt' u 1:2 w lp pt 7 ps 0.8 lc 4 t 't=1.0'
 EOF

@@ -15,3 +15,7 @@ double* gg = nullptr;
 double* f = nullptr;
 double* node = nullptr;
 double* q = nullptr;
+
+double* q_old = nullptr;
+double tau = 0.01;      // шаг по времени
+int n_time = 100;       // число шагов
