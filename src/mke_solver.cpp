@@ -70,7 +70,7 @@ void gen_matrix_mass() {
     for (int i = 0; i < kol_elem; i++) {
         double h = node[i + 1] - node[i];
         if (basis) {
-            // кубические — пропускаем пока
+            // кубический базис
         } else {
             di[i]     += GAMMA * (h / 60.0) * (20.0 * node[i] * node[i] + 10.0 * h * node[i] + 2.0 * h * h);
             di[i + 1] += GAMMA * (h / 60.0) * (20.0 * node[i] * node[i] + 30.0 * h * node[i] + 12.0 * h * h);
