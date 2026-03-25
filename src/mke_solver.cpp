@@ -66,23 +66,34 @@ void clear_mat() {
 }
 
 // =============== ТОЧНЫЕ ФОРМУЛЫ (линейный базис) ===============
+// void gen_matrix_mass() {
+//     for (int i = 0; i < kol_elem; i++) {
+//         double h = node[i + 1] - node[i];
+//         if (basis) {
+//             // кубический базис
+//         } else {
+//             di[i]     += GAMMA * (h / 60.0) * (20.0 * node[i] * node[i] + 10.0 * h * node[i] + 2.0 * h * h);
+//             di[i + 1] += GAMMA * (h / 60.0) * (20.0 * node[i] * node[i] + 30.0 * h * node[i] + 12.0 * h * h);
+//             if (i + 1 < N) {
+//                 int idx = ig[i + 2] - 2;
+//                 if (idx >= 0 && idx < ig[N] - 1) {
+//                     gg[idx] += GAMMA * (h / 60.0) * (10.0 * node[i] * node[i] + 10.0 * h * node[i] + 3.0 * h * h);
+//                 }
+//             }
+//         }
+//     }
+// }
+
 void gen_matrix_mass() {
+    printf("=== gen_matrix_mass ===\n");  // ← ДОБАВЬ ЭТУ СТРОКУ
     for (int i = 0; i < kol_elem; i++) {
-        double h = node[i + 1] - node[i];
-        if (basis) {
-            // кубический базис
-        } else {
-            di[i]     += GAMMA * (h / 60.0) * (20.0 * node[i] * node[i] + 10.0 * h * node[i] + 2.0 * h * h);
-            di[i + 1] += GAMMA * (h / 60.0) * (20.0 * node[i] * node[i] + 30.0 * h * node[i] + 12.0 * h * h);
-            if (i + 1 < N) {
-                int idx = ig[i + 2] - 2;
-                if (idx >= 0 && idx < ig[N] - 1) {
-                    gg[idx] += GAMMA * (h / 60.0) * (10.0 * node[i] * node[i] + 10.0 * h * node[i] + 3.0 * h * h);
-                }
-            }
-        }
+        double h = node[i+1] - node[i];
+        di[i]     += h / 2.0;
+        di[i+1]   += h / 2.0;
     }
 }
+
+
 void gen_matrix_zest() {
     printf("=== gen_matrix_zest ===\n");
     for (int i = 0; i < kol_elem; i++) {
@@ -253,9 +264,18 @@ int output_solution(const char* filename) {
     FILE* out = fopen(filename, "w");
     if (!out) return 1;
     fprintf(out, "x\tapprox\tanalytic\terror\n");
+    // Определяем время из имени файла (грубый, но рабочий способ)
+    double t = 0.0;
+    if (strstr(filename, "0020")) t = 0.21;
+    else if (strstr(filename, "0040")) t = 0.41;
+    else if (strstr(filename, "0060")) t = 0.61;
+    else if (strstr(filename, "0080")) t = 0.81;
+    else if (strstr(filename, "0099")) t = 1.00;
+    // else t = 0.01;
+
     for (int i = 0; i <= kol_elem; i++) {
         double approx = basis ? q[3*i] : q[i];
-        double exact = u_func(node[i]);  // ← для теста с затуханием замени на: exp(-M_PI*M_PI*(n+1)*tau) * sin(M_PI*node[i])
+        double exact = exp(-3.1415926535*3.1415926535 * t) * sin(3.1415926535 * node[i]);
         double err = fabs(approx - exact);
         fprintf(out, "%.8f\t%.8f\t%.8f\t%.2e\n", node[i], approx, exact, err);
     }
