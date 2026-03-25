@@ -54,10 +54,7 @@ int gen_mat() {
         if (fscanf(in, "%lf", &node[i]) != 1) { fclose(in); return 1; }
     }
     fclose(in);
-    printf("ig[N] = %d, размер gg = %d\n", ig[N], ig[N] - 1);
-    for (int i = 0; i <= N; i++) {
-        printf("ig[%d] = %d\n", i, ig[i]);
-    }    
+    printf("ig[N] = %d, размер gg = %d\n", ig[N], ig[N] - 1);  
     return 0;
 }
 
@@ -86,26 +83,6 @@ void gen_matrix_mass() {
         }
     }
 }
-// void gen_matrix_zest() {
-//     printf("=== gen_matrix_zest ===\n");
-//     for (int i = 0; i < kol_elem; i++) {
-//         double h = node[i + 1] - node[i];
-//         double k = 1.0 / h;
-//         printf("Элемент %d: h=%.3f, k=%.3f\n", i, h, k);
-//         printf("  до: di[%d]=%e, di[%d]=%e\n", i, di[i], i+1, di[i+1]);
-//         di[i]     += k;
-//         di[i + 1] += k;
-//         printf("  после: di[%d]=%e, di[%d]=%e\n", i, di[i], i+1, di[i+1]);
-//         if (i + 1 < N) {
-//             int idx = ig[i + 2] - 2;
-//             if (idx >= 0 && idx < ig[N] - 1) {
-//                 printf("  gg[%d] до: %e\n", idx, gg[idx]);
-//                 gg[idx] -= k;
-//                 printf("  gg[%d] после: %e\n", idx, gg[idx]);
-//             }
-//         }
-//     }
-// }
 void gen_matrix_zest() {
     printf("=== gen_matrix_zest ===\n");
     for (int i = 0; i < kol_elem; i++) {
@@ -133,7 +110,7 @@ void gen_right_vector() {
             double h = node[i + 1] - node[i];
             double f0 = f_func(node[i]);
             double f1 = f_func(node[i + 1]);
-            printf("Элемент %d: f0=%f, f1=%f, h=%f\n", i, f0, f1, h);
+            // printf("Элемент %d: f0=%f, f1=%f, h=%f\n", i, f0, f1, h);
             f[i]     += (f0 + f1) * h / 4.0;
             f[i + 1] += (f0 + f1) * h / 4.0;
         }
@@ -248,7 +225,7 @@ int gauss() {
         q[i] = q[i] / di[i];
     }
 
-    // Копируем q → f для обратного хода (как в курсаче)
+    // Копируем q → f для обратного хода
     for (i = 0; i < N; i++) {
         f[i] = q[i];
     }
