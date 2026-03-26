@@ -5,7 +5,6 @@
 #include <cstdlib>
 #include <cmath>
 
-
 extern double* q_old;
 extern double tau;
 extern int n_time;
@@ -63,6 +62,4 @@ double u0_func(double x);
 void gen_right_vector_time(double t);
 void apply_boundary_conditions_time(double t);
 
-int output_solution(const char* filename, double t);
-const double PI = 3.141592653589793;
 #endif // MKE_H

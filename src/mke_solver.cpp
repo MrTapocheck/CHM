@@ -3,19 +3,15 @@
 #include <cstdio>
 #include <cstring>
 
+const double PI = 3.141592653589793;
 
-
-// Коэффициенты уравнения
-double lambda(double r) { return 1.0; }  // теплопроводность
-double f_func(double r) { return 0.0; }   // правая часть = 0 для точного решения
-
-// Начальное условие (при t=0)
+double lambda(double r) { return 0.6; }
+double f_func(double r) { return 0.0; }  // ← НУЛЕВАЯ ПРАВАЯ ЧАСТЬ
 double u_func(double r) { 
-    return sin(PI * r);  // u(x,0) = sin(πx)
+    return  sin(PI * r);  // ← 10.0 АМПЛИТУДА, 5 ВОЛН НА [0,10]
 }
-
 double du_func(double r) { 
-    return PI * cos(PI * r);  // производная для краевых условий 2-го рода
+    return 10.0 * (PI / 10.0) * cos(PI * r / 10.0); 
 }
 
 // Генерация матрицы и сетки
@@ -85,21 +81,15 @@ void clear_mat() {
     }
 }
 
-// ПОЛНАЯ (консистентная) матрица массы
 void gen_matrix_mass() {
-    printf("=== gen_matrix_mass ===\n");
     for (int i = 0; i < kol_elem; i++) {
         double h = node[i+1] - node[i];
-        
-        // Диагональные элементы: ∫φ_i² dx = h/3
-        di[i]     += GAMMA * h / 3.0;
+        di[i]     += GAMMA * h / 3.0; 
         di[i+1]   += GAMMA * h / 3.0;
-        
-        // Внедиагональные элементы: ∫φ_i φ_{i+1} dx = h/6
         if (i+1 < N) {
             int idx = ig[i+2] - 2;
             if (idx >= 0 && idx < ig[N]-1) {
-                gg[idx] += GAMMA * h / 6.0;
+                gg[idx] += GAMMA * h / 6.0; 
             }
         }
     }
@@ -107,14 +97,11 @@ void gen_matrix_mass() {
 
 // Матрица жёсткости
 void gen_matrix_zest() {
-    printf("=== gen_matrix_zest ===\n");
     for (int i = 0; i < kol_elem; i++) {
         double h = node[i + 1] - node[i];
-        double k = lambda(0.5 * (node[i] + node[i+1])) / h;  // λ/h
-        
+        double k = lambda(0.5 * (node[i] + node[i+1])) / h;
         di[i]     += k;
         di[i + 1] += k;
-        
         if (i + 1 < N) {
             int idx = ig[i + 2] - 2;
             if (idx >= 0 && idx < ig[N] - 1) {
@@ -285,23 +272,34 @@ int solve() {
 }
 
 // Вывод решения с точным решением для времени t
-int output_solution(const char* filename, double t) {
+// int output_solution(const char* filename, double t) {
+//     FILE* out = fopen(filename, "w");
+//     if (!out) return 1;
+    
+//     fprintf(out, "x\tapprox\tanalytic\terror\n");
+    
+//     for (int i = 0; i <= kol_elem; i++) {
+//         double approx = basis ? q[3*i] : q[i];
+        
+//         // ТОЧНОЕ РЕШЕНИЕ для уравнения теплопроводности
+//         // с начальным условием u(x,0) = sin(πx) и краями u(0)=u(1)=0
+//         double exact = exp(-PI*PI * t) * sin(PI * node[i]);
+        
+//         double err = fabs(approx - exact);
+//         fprintf(out, "%.8f\t%.8f\t%.8f\t%.2e\n", node[i], approx, exact, err);
+//     }
+    
+//     fclose(out);
+//     return 0;
+// }
+int output_solution(const char* filename) {
     FILE* out = fopen(filename, "w");
     if (!out) return 1;
-    
-    fprintf(out, "x\tapprox\tanalytic\terror\n");
-    
+    fprintf(out, "x\tapprox\n");  // ← ТОЛЬКО 2 СТОЛБЦА ДЛЯ GNUPLOT
     for (int i = 0; i <= kol_elem; i++) {
         double approx = basis ? q[3*i] : q[i];
-        
-        // ТОЧНОЕ РЕШЕНИЕ для уравнения теплопроводности
-        // с начальным условием u(x,0) = sin(πx) и краями u(0)=u(1)=0
-        double exact = exp(-PI*PI * t) * sin(PI * node[i]);
-        
-        double err = fabs(approx - exact);
-        fprintf(out, "%.8f\t%.8f\t%.8f\t%.2e\n", node[i], approx, exact, err);
+        fprintf(out, "%.8f\t%.8f\n", node[i], approx);
     }
-    
     fclose(out);
     return 0;
 }
